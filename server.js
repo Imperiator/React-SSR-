@@ -9,23 +9,24 @@
   const app = express();
   app.disable("x-powered-by");
 
+ app.use(morgan("dev"));
 
 
-
-    app.use(express.static(path.join(__dirname, "./client/build")));
     //Routes
-app.get("*", (req, res) => {
-  let pathname = req.originalUrl || req.path;
+app.use('/api', (req, res) => {
+  res.send('API is running');
+})
 
-  console.log(pathname);
+app.use("*", (req, res) => {
+  app.use(express.static(path.join(__dirname, "./client/build")));
+  let pathname = req.path || req.originalUrl;
   let page = seo.find((page) => page.path === pathname);
   if (!page) {
     page = {
       title: "Page not found | 404",
       description: "404",
-    };
+    }
   }
-  console.log(page)
   let html = fs.readFileSync(
     path.join(__dirname, "./client/build/index.html"))
   let htmlWithMeta = html
