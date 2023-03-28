@@ -1,12 +1,12 @@
 module.exports = [
     {
         path: '/',
-        component: 'Home',
+        title: 'Home',
         description: 'Home page',
     },
     {
         path: '/test',
-        component: 'Test',
+        title: 'Test',
         description: 'Test page',
     }
 ]

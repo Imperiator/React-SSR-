@@ -9,8 +9,6 @@
   const app = express();
   app.disable("x-powered-by");
 
-  app.use(morgan("dev"));
-
 
 
 
@@ -27,6 +25,7 @@ app.get("*", (req, res) => {
       description: "404",
     };
   }
+  console.log(page)
   let html = fs.readFileSync(
     path.join(__dirname, "./client/build/index.html"))
   let htmlWithMeta = html
