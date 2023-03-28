@@ -23,7 +23,6 @@ app.use('/api', (req, res) => {
 
 app.use("*", (req, res) => {
   app.use(express.static(path.join(__dirname, "./client/build")));
-  console.log("path *")
   let pathname = req.path || req.originalUrl;
   console.log(pathname);
   let page = seo.find((page) => page.path === pathname);
