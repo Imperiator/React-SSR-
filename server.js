@@ -16,10 +16,16 @@
 app.use('/api', (req, res) => {
   res.send('API is running');
 })
+// app.use("/", (req, res) => { 
+//   res.send("Hello World")
+// });
+
 
 app.use("*", (req, res) => {
   app.use(express.static(path.join(__dirname, "./client/build")));
+  console.log("path *")
   let pathname = req.path || req.originalUrl;
+  console.log(pathname);
   let page = seo.find((page) => page.path === pathname);
   if (!page) {
     page = {
@@ -27,6 +33,7 @@ app.use("*", (req, res) => {
       description: "404",
     }
   }
+  console.log(page);
   let html = fs.readFileSync(
     path.join(__dirname, "./client/build/index.html"))
   let htmlWithMeta = html
