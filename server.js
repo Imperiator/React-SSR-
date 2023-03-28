@@ -9,20 +9,17 @@
   const app = express();
   app.disable("x-powered-by");
 
- app.use(morgan("dev"));
+app.use(morgan("dev"));
+ 
 
+app.use("/static", express.static(path.join(__dirname, "./client/build/static")));
 
     //Routes
-app.use('/api', (req, res) => {
+app.all('/api', (req, res) => {
   res.send('API is running');
 })
-// app.use("/", (req, res) => { 
-//   res.send("Hello World")
-// });
 
-
-app.use("*", (req, res) => {
-  app.use(express.static(path.join(__dirname, "./client/build")));
+app.all("*", (req, res) => {
   let pathname = req.path || req.originalUrl;
   console.log(pathname);
   let page = seo.find((page) => page.path === pathname);
@@ -33,6 +30,7 @@ app.use("*", (req, res) => {
     }
   }
   console.log(page);
+
   let html = fs.readFileSync(
     path.join(__dirname, "./client/build/index.html"))
   let htmlWithMeta = html
@@ -42,7 +40,10 @@ app.use("*", (req, res) => {
   return res.send(htmlWithMeta);
 
 });
-  
+
+
+
+
 
   app.listen(process.env.PORT || 2589, () => {
     console.log("Server Started on port " + process.env.NODE_ENV);
